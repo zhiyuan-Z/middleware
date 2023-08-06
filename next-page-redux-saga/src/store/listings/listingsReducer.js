@@ -12,7 +12,7 @@ export function listingsReducer(state = initialState, action) {
         listings: action.payload.listings,
       };
     }
-    case actionTypes.ADD_LISTING: {
+    case actionTypes.ADD_LISTING_SUCCESS: {
       return {
         ...state,
         listings: [...listings, action.payload.newListing],
