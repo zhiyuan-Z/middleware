@@ -31,3 +31,10 @@ export const editListing = async ({ id, editedListing }) => {
   });
   return await response.json();
 };
+
+export const removeListing = async ({ id }) => {
+  const response = await fetch(`${baseUrl}/listings/${id}`, {
+    method: "DELETE",
+  });
+  return await response.json();
+};

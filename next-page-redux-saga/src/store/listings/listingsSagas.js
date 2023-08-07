@@ -4,6 +4,7 @@ import {
   getListingsSuccess,
   addListingSuccess,
   editListingSuccess,
+  removeListingSuccess,
 } from "./actions";
 import * as api from "@/api/listingsApi";
 
@@ -21,6 +22,11 @@ export function* watchAddListing() {
 export function* watchEditListing() {
   console.log("watching editListing");
   yield takeEvery(actionTypes.EDIT_LISTING, editListing);
+}
+
+export function* watchRemoveListing() {
+  console.log("watching removeListing");
+  yield takeEvery(actionTypes.REMOVE_LISTING, removeListing);
 }
 
 // worker saga
@@ -54,10 +60,21 @@ export function* editListing(action) {
   }
 }
 
+export function* removeListing(action) {
+  console.log("working: removeListing");
+  try {
+    const id = yield call(api.removeListing, action.payload);
+    yield put(removeListingSuccess({ id }));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 const listingsSagas = [
   fork(watchGetAllListings),
   fork(watchAddListing),
   fork(watchEditListing),
+  fork(watchRemoveListing),
 ];
 
 export default listingsSagas;

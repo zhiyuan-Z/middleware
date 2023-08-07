@@ -3,6 +3,7 @@ import { wrapper } from "@/store";
 import { getAllListings } from "@/store/listings/actions";
 import Link from "next/link";
 import { useMemo } from "react";
+import { useSelector } from "react-redux";
 import { END } from "redux-saga";
 
 const columns = [
@@ -16,22 +17,25 @@ const columns = [
   { property: "postTime", header: "Posted" },
 ];
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async ({req, res}) => {
-  await store.dispatch(getAllListings());
-  await store.dispatch(END);
-  // the END action will terminate all the blocked Sagas and wait for all the
-  // child tasks to terminate before terminating the task
-  await store.sagaTask.toPromise()
-  // wait for the saga to complete before continuing
-  return {
-    props: {
-      state: store.getState(),
-    },
-  };
-})
+export const getServerSideProps = wrapper.getServerSideProps(
+  store =>
+    async ({ req, res }) => {
+      await store.dispatch(getAllListings());
+      await store.dispatch(END);
+      // the END action will terminate all the blocked Sagas and wait for all the
+      // child tasks to terminate before terminating the task
+      await store.sagaTask.toPromise();
+      // wait for the saga to complete before continuing
+      return {
+        props: {
+          // state: store.getState(),
+        },
+      };
+    }
+);
 
 export default function ListingsPage(props) {
-  const { listings: listingsData } = props.state.listings;
+  const listingsData = useSelector(state => state.listings.listings);
 
   const listings = useMemo(() => {
     return listingsData.map(listing => {
@@ -55,7 +59,9 @@ export default function ListingsPage(props) {
   return (
     <div className="p-2 flex flex-col items-center">
       <ListingTable columns={columns} listingData={listings} />
-      <Link className="btn w-96 m-auto" href="listings/newListing">Create A New Listing</Link>
+      <Link className="btn w-96 m-auto" href="listings/newListing">
+        Create A New Listing
+      </Link>
     </div>
   );
 }
