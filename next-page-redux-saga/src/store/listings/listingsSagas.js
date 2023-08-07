@@ -1,5 +1,10 @@
 import { call, fork, put, takeEvery } from "redux-saga/effects";
-import { actionTypes, getListingsSuccess, addListingSuccess } from "./actions";
+import {
+  actionTypes,
+  getListingsSuccess,
+  addListingSuccess,
+  editListingSuccess,
+} from "./actions";
 import * as api from "@/api/listingsApi";
 
 // watcher
@@ -11,6 +16,11 @@ export function* watchGetAllListings() {
 export function* watchAddListing() {
   console.log("watching getAddListing");
   yield takeEvery(actionTypes.ADD_LISTING, addListing);
+}
+
+export function* watchEditListing() {
+  console.log("watching editListing");
+  yield takeEvery(actionTypes.EDIT_LISTING, editListing);
 }
 
 // worker saga
@@ -34,6 +44,20 @@ export function* addListing(action) {
   }
 }
 
-const listingsSagas = [fork(watchGetAllListings), fork(watchAddListing)];
+export function* editListing(action) {
+  console.log("working: editListing");
+  try {
+    const editedListing = yield call(api.editListing, action.payload);
+    yield put(editListingSuccess({ editedListing, id: action.payload.id }));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+const listingsSagas = [
+  fork(watchGetAllListings),
+  fork(watchAddListing),
+  fork(watchEditListing),
+];
 
 export default listingsSagas;

@@ -7,7 +7,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useController, useForm } from "react-hook-form";
 
-export default function ListingForm({ onSubmit, prefillData }) {
+export default function ListingForm({ onSubmit, prefillData, submitText }) {
   const { register, handleSubmit, control, formState } = useForm({
     defaultValues: {
       title: prefillData?.title,
@@ -211,7 +211,7 @@ export default function ListingForm({ onSubmit, prefillData }) {
           placeholder="Zipcode"
         />
       </InputGroup>
-      <Input type="submit" value="Create New Listing" />
+      <Input type="submit" value={submitText} />
     </form>
   );
 }

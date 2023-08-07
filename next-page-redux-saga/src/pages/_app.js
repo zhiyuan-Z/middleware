@@ -1,13 +1,8 @@
-// import { StoreProvider } from "@/store";
 import { wrapper } from "@/store";
 import "@/styles/globals.css";
 
 function App({ Component, pageProps }) {
-  return (
-    // <StoreProvider>
-    <Component {...pageProps} />
-    // </StoreProvider>
-  );
+  return <Component {...pageProps} />;
 }
 
 export default wrapper.withRedux(App);

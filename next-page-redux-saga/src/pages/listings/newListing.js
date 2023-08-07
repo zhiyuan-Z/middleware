@@ -15,7 +15,7 @@ export default function newListingPage() {
   return (
     <div className="p-8 m-auto w-[800px]">
       <h1 className="text-xl font-semibold">Create a new listing</h1>
-      <ListingForm onSubmit={onSubmit} />
+      <ListingForm onSubmit={onSubmit} submitText={"Create New Listing"} />
     </div>
   );
 }

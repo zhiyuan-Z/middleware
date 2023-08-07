@@ -1,5 +1,6 @@
 import { getAllListings, getListingDetail } from "@/api/listingsApi";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 // SSG (static site generation)
 export async function getStaticPaths() {
@@ -15,12 +16,12 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps = async ({ params }) => {
-  console.log("params", params);
   const listingDetail = await getListingDetail({ id: params.id });
   return { props: { listingDetail } };
 };
 
 export default function listingDetailPage({ listingDetail }) {
+  const router = useRouter();
   const {
     title,
     postTime,
@@ -49,7 +50,7 @@ export default function listingDetailPage({ listingDetail }) {
               alt="apartment image"
               width={300}
               height={300}
-              className="object-contain"
+              className="object-contain h-auto"
             />
           ))}
         </div>
@@ -71,6 +72,9 @@ export default function listingDetailPage({ listingDetail }) {
             <p>{street}</p>
             <span>{city}</span>, <span>{state}</span> <span>{zip}</span>
           </div>
+          <button className="mt-6 btn w-80" onClick={() => router.push(`${router.asPath}/edit`)}>
+            Edit Listing
+          </button>
         </div>
       </div>
     </div>

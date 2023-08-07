@@ -1,5 +1,5 @@
 // fake db actions just for demo purposes
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 
 let listings = [
   {
@@ -106,17 +106,38 @@ const getListingDetailFromDB = ({ id }) =>
   });
 
 const addListingToDB = ({ newListing }) => {
-  const { title, bedroom, bathroom, startDate, endDate, rent, zip } = newListing;
+  const { title, bedroom, bathroom, startDate, endDate, rent, zip } =
+    newListing;
   const id = uuidv4();
   const postTime = new Date().getTime();
   const userId = "test";
   const gallery = ["https://source.unsplash.com/random/?apartment"];
-  newListing = {...newListing, id, userId, postTime, gallery}
-  listings.push({ id, title, postTime, bedroom, bathroom, startDate, endDate, rent, zip });
+  newListing = { ...newListing, id, userId, postTime, gallery };
+  listings.push({
+    id,
+    title,
+    postTime,
+    bedroom,
+    bathroom,
+    startDate,
+    endDate,
+    rent,
+    zip,
+  });
   listingDetails.push(newListing);
   return new Promise((res, rej) => {
     setTimeout(() => {
-      res({ id, title, postTime, bedroom, bathroom, startDate, endDate, rent, zip });
+      res({
+        id,
+        title,
+        postTime,
+        bedroom,
+        bathroom,
+        startDate,
+        endDate,
+        rent,
+        zip,
+      });
     }, 1000);
   });
 };
@@ -132,14 +153,52 @@ const removeListingFromDB = ({ id }) => {
 };
 
 const editListingFromDB = ({ editedListing, id }) => {
-  const { id: listingId, title, postTime, bedroom, bathroom, startDate, endDate, rent, zip } = editedListing;
-  listings = listings.map(listing => (listing.id !== id ? listing : { id: listingId, title, postTime, bedroom, bathroom, startDate, endDate, rent, zip }));
-  listingDetails = listingDetails.map(listing => (listing.id !== id ? listing : editedListing));
+  const { title, bedroom, bathroom, startDate, endDate, rent, zip } =
+    editedListing;
+  const { postTime, userId, gallery } = listingDetails.find(
+    listing => listing.id === id
+  );
+  listings = listings.map(listing =>
+    listing.id !== id
+      ? listing
+      : {
+          id,
+          title,
+          postTime,
+          bedroom,
+          bathroom,
+          startDate,
+          endDate,
+          rent,
+          zip,
+        }
+  );
+  listingDetails = listingDetails.map(listing =>
+    listing.id !== id
+      ? listing
+      : { ...editedListing, id, userId, postTime, gallery }
+  );
   return new Promise((res, rej) => {
     setTimeout(() => {
-      res(editedListing);
+      res({
+        id,
+        title,
+        postTime,
+        bedroom,
+        bathroom,
+        startDate,
+        endDate,
+        rent,
+        zip,
+      });
     }, 1000);
   });
 };
 
-module.exports = { getListingsFromDB, getListingDetailFromDB, addListingToDB, removeListingFromDB, editListingFromDB };
+module.exports = {
+  getListingsFromDB,
+  getListingDetailFromDB,
+  addListingToDB,
+  removeListingFromDB,
+  editListingFromDB,
+};

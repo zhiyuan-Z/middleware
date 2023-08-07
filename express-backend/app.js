@@ -7,7 +7,7 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var listingsRouter = require("./routes/listings");
 
-require('dotenv').config()
+require("dotenv").config();
 
 var app = express();
 
@@ -27,6 +27,10 @@ if (process.env.NODE_ENV === "DEVELOPMENT") {
     res.header(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    res.header(
+      "Access-Control-Allow-Methods",
+      "PUT, POST, GET, DELETE, OPTIONS"
     );
     next();
   });

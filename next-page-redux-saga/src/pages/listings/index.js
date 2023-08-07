@@ -1,5 +1,5 @@
 import ListingTable from "@/components/ListingTable";
-import { store, wrapper } from "@/store";
+import { wrapper } from "@/store";
 import { getAllListings } from "@/store/listings/actions";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -53,8 +53,9 @@ export default function ListingsPage(props) {
   }, [listingsData]);
 
   return (
-    <div className="p-2">
+    <div className="p-2 flex flex-col items-center">
       <ListingTable columns={columns} listingData={listings} />
+      <Link className="btn w-96 m-auto" href="listings/newListing">Create A New Listing</Link>
     </div>
   );
 }

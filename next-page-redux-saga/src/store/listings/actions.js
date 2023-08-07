@@ -5,6 +5,7 @@ export const actionTypes = {
   EDIT_LISTING: "EDIT_LISTING",
   GET_LISTINGS_SUCCESS: "GET_LISTINGS_SUCCESS",
   ADD_LISTING_SUCCESS: "ADD_LISTING_SUCCESS",
+  EDIT_LISTING_SUCCESS: "EDIT_LISTING_SUCCESS",
 };
 
 export const getAllListings = () => ({
@@ -24,4 +25,14 @@ export const addListing = newListing => ({
 export const addListingSuccess = item => ({
   type: actionTypes.ADD_LISTING_SUCCESS,
   payload: { newListing: item },
+});
+
+export const editListing = ({ editedListing, id }) => ({
+  type: actionTypes.EDIT_LISTING,
+  payload: { editedListing, id },
+});
+
+export const editListingSuccess = ({ editedListing, id }) => ({
+  type: actionTypes.EDIT_LISTING_SUCCESS,
+  payload: { editedListing, id },
 });

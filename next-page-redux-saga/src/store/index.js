@@ -1,10 +1,10 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
-import createSagaMiddlewhere from "redux-saga";
+import createSagaMiddleware from "redux-saga";
 import { listingsReducer } from "./listings/listingsReducer";
 import { all } from "redux-saga/effects";
 import listingsSagas from "./listings/listingsSagas";
-import { Provider } from "react-redux";
 import { createWrapper } from "next-redux-wrapper";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 const rootReducer = combineReducers({
   listings: listingsReducer,
@@ -15,14 +15,13 @@ export function* rootSaga() {
 }
 
 export const makeStore = context => {
-  const sagaMiddleware = createSagaMiddlewhere();
-  const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+  const sagaMiddleware = createSagaMiddleware();
+  const store = createStore(
+    rootReducer,
+    composeWithDevTools(applyMiddleware(sagaMiddleware))
+  );
   store.sagaTask = sagaMiddleware.run(rootSaga);
   return store;
 };
 
 export const wrapper = createWrapper(makeStore, { debug: true });
-
-// export function StoreProvider({ children }) {
-//   return <Provider store={store}>{children}</Provider>;
-// }
