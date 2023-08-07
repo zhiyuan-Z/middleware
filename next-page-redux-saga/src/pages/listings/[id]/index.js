@@ -20,7 +20,7 @@ export const getStaticProps = async ({ params }) => {
   return { props: { listingDetail } };
 };
 
-export default function listingDetailPage({ listingDetail }) {
+export default function ListingDetailPage({ listingDetail }) {
   const router = useRouter();
   const {
     title,

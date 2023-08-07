@@ -3,7 +3,7 @@ import { addListing } from "@/store/listings/actions";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 
-export default function newListingPage() {
+export default function NewListingPage() {
   const dispatch = useDispatch();
   const router = useRouter();
 
