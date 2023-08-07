@@ -3,12 +3,20 @@ import createSagaMiddleware from "redux-saga";
 import { listingsReducer } from "./listings/listingsReducer";
 import { all } from "redux-saga/effects";
 import listingsSagas from "./listings/listingsSagas";
-import { createWrapper } from "next-redux-wrapper";
+import { HYDRATE, createWrapper } from "next-redux-wrapper";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   listings: listingsReducer,
 });
+
+const rootReducer = (state, action) => {
+  // reconciliate the hydrated state on top of the existing state
+  if (action.type === HYDRATE) {
+    return { ...state, ...action.payload };
+  }
+  return appReducer(state, action);
+};
 
 export function* rootSaga() {
   yield all([...listingsSagas]);
