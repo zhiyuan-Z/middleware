@@ -1,4 +1,4 @@
-import { getAllListings } from "@/api/listingsApi";
+import { getAllListings, getListingDetail } from "@/api/listingsApi";
 import Image from "next/image";
 
 // SSG (static site generation)
@@ -16,8 +16,7 @@ export async function getStaticPaths() {
 
 export const getStaticProps = async ({ params }) => {
   console.log("params", params);
-  const res = await fetch(`http://localhost:5000/listings/${params.id}`);
-  const listingDetail = await res.json();
+  const listingDetail = await getListingDetail({ id: params.id });
   return { props: { listingDetail } };
 };
 

@@ -15,3 +15,8 @@ export const addListing = async ({ newListing }) => {
   });
   return await response.json();
 };
+
+export const getListingDetail = async ({ id }) => {
+  const res = await fetch(`http://localhost:5000/listings/${id}`);
+  return await res.json();
+};
