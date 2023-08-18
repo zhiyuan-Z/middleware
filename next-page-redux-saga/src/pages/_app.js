@@ -1,15 +1,15 @@
-import { persistor, wrapper } from "@/store";
+import { wrapper } from "@/store";
 import "@/styles/globals.css";
-import { PersistGate } from "redux-persist/integration/react";
+// import { PersistGate } from "redux-persist/integration/react";
 
 function App({ Component, pageProps }) {
   return (
-    <PersistGate
-      loading={<div>reconciling with local state</div>}
-      persistor={persistor}
-    >
+    // <PersistGate
+    //   loading={<div>reconciling with local state</div>}
+    //   persistor={persistor}
+    // >
       <Component {...pageProps} />
-    </PersistGate>
+    // </PersistGate>
   );
 }
 

@@ -13,22 +13,28 @@ export function listingsReducer(state = initialState, action) {
       };
     }
     case actionTypes.ADD_LISTING_SUCCESS: {
-      return {
-        ...state,
-        listings: [...state.listings, action.payload.newListing],
-      };
+      return state.listings.find(
+        listing => listing.listingId === action.payload.listings.listingId
+      )
+        ? state
+        : {
+            ...state,
+            listings: [...state.listings, action.payload.newListing],
+          };
     }
     case actionTypes.REMOVE_LISTING_SUCCESS: {
       return {
         ...state,
-        listings: state.listings.filter(listing => listing.id !== action.payload.id),
+        listings: state.listings.filter(
+          listing => listing.listingId !== action.payload.id
+        ),
       };
     }
     case actionTypes.EDIT_LISTING_SUCCESS: {
       return {
         ...state,
         listings: state.listings.map(listing =>
-          listing.id !== action.payload.id
+          listing.listingId !== action.payload.id
             ? listing
             : action.payload.editedListing
         ),

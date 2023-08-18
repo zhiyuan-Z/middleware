@@ -32,14 +32,16 @@ export function* rootSaga() {
   yield all([...listingsSagas]);
 }
 
-const sagaMiddleware = createSagaMiddleware();
-const store = createStore(
-  persistedReducer,
-  composeWithDevTools(applyMiddleware(sagaMiddleware))
-);
-store.sagaTask = sagaMiddleware.run(rootSaga);
-
-export const persistor = persistStore(store);
-export const makeStore = context => store;
+// export const persistor = persistStore(store);
+export const makeStore = context => {
+  const sagaMiddleware = createSagaMiddleware();
+  // saga middleware should be created every time to work with SSR
+  const store = createStore(
+    persistedReducer,
+    composeWithDevTools(applyMiddleware(sagaMiddleware))
+  );
+  store.sagaTask = sagaMiddleware.run(rootSaga);
+  return store;
+};
 
 export const wrapper = createWrapper(makeStore, { debug: true });

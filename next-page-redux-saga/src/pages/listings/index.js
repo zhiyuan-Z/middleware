@@ -20,8 +20,8 @@ const columns = [
 export const getServerSideProps = wrapper.getServerSideProps(
   store =>
     async ({ req, res }) => {
-      await store.dispatch(getAllListings());
-      await store.dispatch(END);
+      store.dispatch(getAllListings());
+      store.dispatch(END);
       // the END action will terminate all the blocked Sagas and wait for all the
       // child tasks to terminate before terminating the task
       await store.sagaTask.toPromise();
@@ -43,7 +43,7 @@ export default function ListingsPage(props) {
         ...listing,
         title: (
           <Link
-            href={`/listings/${listing.id}`}
+            href={`/listings/${listing.listingId}`}
             className="hover:underline focus:underline"
           >
             {listing.title}

@@ -8,7 +8,7 @@ export default function Home() {
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
     >
-      <Link href="/listings" className='hover:underline focus:underline'>See property listings</Link>
+      <Link href="/listings" className='hover:underline focus:underline' prefetch={false}>See property listings</Link>
     </main>
   )
 }

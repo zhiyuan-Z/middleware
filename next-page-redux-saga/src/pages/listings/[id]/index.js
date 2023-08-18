@@ -8,16 +8,16 @@ export async function getStaticPaths() {
 
   // paths that need to be prerendered
   const paths = listings.map(listing => ({
-    params: { id: listing.id },
+    params: { id: listing.listingId },
   }));
 
-  // { fallback: false } means other routes should 404
-  return { paths, fallback: false };
+  // { fallback: 'blocking' } means other routes should wait for HTML to be generated
+  return { paths, fallback: "blocking" };
 }
 
 export const getStaticProps = async ({ params }) => {
   const listingDetail = await getListingDetail({ id: params.id });
-  return { props: { listingDetail } };
+  return { props: { listingDetail }, revalidate: 10 };
 };
 
 export default function ListingDetailPage({ listingDetail }) {
@@ -72,7 +72,10 @@ export default function ListingDetailPage({ listingDetail }) {
             <p>{street}</p>
             <span>{city}</span>, <span>{state}</span> <span>{zip}</span>
           </div>
-          <button className="mt-6 btn w-80" onClick={() => router.push(`${router.asPath}/edit`)}>
+          <button
+            className="mt-6 btn w-80"
+            onClick={() => router.push(`${router.asPath}/edit`)}
+          >
             Edit Listing
           </button>
         </div>

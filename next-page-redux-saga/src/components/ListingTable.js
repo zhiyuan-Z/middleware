@@ -19,7 +19,7 @@ export default function ListingTable({ columns, listingData }) {
         <tbody>
           {listingData.map(listing => {
             return (
-              <tr key={listing.id}>
+              <tr key={listing.listingId}>
                 {columns.map(column => (
                   <td className="px-3 py-1" key={column.header}>
                     {listing[column.property]}
@@ -28,7 +28,7 @@ export default function ListingTable({ columns, listingData }) {
                 <td className="px-3 py-1">
                   <button
                     onClick={() => {
-                      dispatch(removeListing({ id: listing.id }));
+                      dispatch(removeListing({ id: listing.listingId }));
                     }}
                   >
                     <svg
